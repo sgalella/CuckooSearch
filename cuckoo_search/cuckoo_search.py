@@ -43,6 +43,8 @@ class CuckooSearch:
 
 def visualize_all(algorithm, num_iterations):
     plt.figure(figsize=(8, 5))
+    algorithm.landscape.plot()
+    plt.colorbar(shrink=0.75)
     plt.ion()
     for _ in range(num_iterations):
         algorithm.update()
@@ -61,6 +63,7 @@ def visualize_end(algorithm, num_iterations):
         algorithm.update()
     plt.figure(figsize=(8, 5))
     algorithm.landscape.plot()
+    plt.colorbar(shrink=0.75)
     plt.scatter(algorithm.population[:, 0], algorithm.population[:, 1], color='r', marker='*')
     plt.title(f'Best fitness: {algorithm.best_fitness:.4f}')
     plt.show()

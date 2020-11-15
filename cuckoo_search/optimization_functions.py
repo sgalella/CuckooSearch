@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy import spatial
 
 
 class FitnessLandscape(ABC):
@@ -9,7 +10,12 @@ class FitnessLandscape(ABC):
         self.limits = limits
         self.resolution = resolution
         self.X, self.Y = self._create_meshgrid()
-        self.fitness_function = self._calculate_fitness()
+        self.coords, self.tree = self._generate_coords()
+        self.fitness_function = self._calculate_fitness().reshape(self.resolution, self.resolution)
+
+    def _generate_coords(self):
+        coords = np.dstack([self.X.ravel(), self.Y.ravel()])[0]
+        return coords, spatial.cKDTree(coords)
 
     def _create_meshgrid(self):
         x = np.linspace(self.limits[0], self.limits[1], self.resolution)
@@ -18,10 +24,8 @@ class FitnessLandscape(ABC):
         return X, Y
 
     def evaluate_fitness(self, pos):
-        pos_x, pos_y = pos
-        _, j = np.unravel_index((np.abs(self.X - pos_x)).argmin(), self.fitness_function.shape)
-        i, _ = np.unravel_index((np.abs(self.Y - pos_y)).argmin(), self.fitness_function.shape)
-        return np.fabs(self.fitness_function[i, j] - np.max(self.fitness_function))
+        _, index = self.tree.query(pos)
+        return np.fabs(self.fitness_function[index // self.resolution][index % self.resolution] - np.max(self.fitness_function))
 
     def plot(self):
         cs = plt.contour(self.X, self.Y, self.fitness_function)

@@ -45,7 +45,7 @@ class CuckooSearch:
             plt.cla()
             self.landscape.plot()
             plt.scatter(self.population[:, 0], self.population[:, 1], color='r', marker='*')
-            plt.title(f'Best fitness: {self.best_fitness:.2f}')
+            plt.title(f'Best fitness: {self.best_fitness:.4f}')
             plt.draw()
             plt.pause(0.01)
         plt.ioff()

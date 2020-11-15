@@ -12,6 +12,7 @@ class FitnessLandscape(ABC):
         self.X, self.Y = self._create_meshgrid()
         self.coords, self.tree = self._generate_coords()
         self.fitness_function = self._calculate_fitness().reshape(self.resolution, self.resolution)
+        self.max, self.min = np.max(self.fitness_function), np.min(self.fitness_function)
 
     def _generate_coords(self):
         coords = np.dstack([self.X.ravel(), self.Y.ravel()])[0]
@@ -25,7 +26,7 @@ class FitnessLandscape(ABC):
 
     def evaluate_fitness(self, pos):
         _, index = self.tree.query(pos)
-        return np.fabs(self.fitness_function[index // self.resolution][index % self.resolution] - np.max(self.fitness_function))
+        return 1 - (self.fitness_function[index // self.resolution][index % self.resolution] - self.min) / (self.max - self.min)
 
     def plot(self):
         cs = plt.contour(self.X, self.Y, self.fitness_function)

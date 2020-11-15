@@ -31,25 +31,45 @@ class CuckooSearch:
             position = self.population[ind1, :] + move
         return position
 
-    def run(self, num_iterations):
-        plt.figure(figsize=(8, 5))
-        plt.ion()
-        for _ in range(num_iterations):
-            ind1, ind2 = np.random.choice(self.num_individuals, size=(2, ), replace=False)
-            position = self._levy_flight(ind1)
-            fitness_ind1 = self.landscape.evaluate_fitness(position)
-            fitness_ind2 = self.landscape.evaluate_fitness(self.population[ind2, :])
-            if fitness_ind1 > fitness_ind2:
-                self.population[ind2, :] = position
-            self.best_fitness = max(fitness_ind1, self.best_fitness)
-            plt.cla()
-            self.landscape.plot()
-            plt.scatter(self.population[:, 0], self.population[:, 1], color='r', marker='*')
-            plt.title(f'Best fitness: {self.best_fitness:.4f}')
-            plt.draw()
-            plt.pause(0.01)
-        plt.ioff()
-        plt.show()
+    def update(self):
+        ind1, ind2 = np.random.choice(self.num_individuals, size=(2, ), replace=False)
+        position = self._levy_flight(ind1)
+        fitness_ind1 = self.landscape.evaluate_fitness(position)
+        fitness_ind2 = self.landscape.evaluate_fitness(self.population[ind2, :])
+        if fitness_ind1 > fitness_ind2:
+            self.population[ind2, :] = position
+        self.best_fitness = max(fitness_ind1, self.best_fitness)
+
+
+def visualize_all(algorithm, num_iterations):
+    plt.figure(figsize=(8, 5))
+    plt.ion()
+    for _ in range(num_iterations):
+        algorithm.update()
+        plt.cla()
+        algorithm.landscape.plot()
+        plt.scatter(algorithm.population[:, 0], algorithm.population[:, 1], color='r', marker='*')
+        plt.title(f'Best fitness: {algorithm.best_fitness:.4f}')
+        plt.draw()
+        plt.pause(0.01)
+    plt.ioff()
+    plt.show()
+
+
+def visualize_end(algorithm, num_iterations):
+    for _ in range(num_iterations):
+        algorithm.update()
+    plt.figure(figsize=(8, 5))
+    algorithm.landscape.plot()
+    plt.scatter(algorithm.population[:, 0], algorithm.population[:, 1], color='r', marker='*')
+    plt.title(f'Best fitness: {algorithm.best_fitness:.4f}')
+    plt.show()
+
+
+def no_visualization(algorithm, num_iterations):
+    for _ in range(num_iterations):
+        algorithm.update()
+    print(algorithm.best_fitness)
 
 
 def main():
@@ -57,9 +77,9 @@ def main():
     resolution = 100
     limits = [-5, 5, -3, 3]  # x_min, x_max, y_min, y_max
     num_iterations = 100
-    landscape = opt.SphereLandscape(limits, resolution)
+    landscape = opt.HimmelblauLandscape(limits, resolution)
     search = CuckooSearch(10, landscape, alpha=0.5)
-    search.run(num_iterations)
+    visualize_all(search, num_iterations)
 
 
 if __name__ == '__main__':

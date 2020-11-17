@@ -79,8 +79,8 @@ def main():
     np.random.seed(1234)
     resolution = 100
     limits = [-5, 5, -3, 3]  # x_min, x_max, y_min, y_max
-    num_iterations = 100
-    landscape = opt.HimmelblauLandscape(limits, resolution)
+    num_iterations = 200
+    landscape = opt.RastringinLandscape(limits, resolution)
     search = CuckooSearch(10, landscape, alpha=0.5)
     visualize_all(search, num_iterations)
 

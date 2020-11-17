@@ -2,8 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import levy
 
-import optimization_functions as opt
-
 
 class CuckooSearch:
     def __init__(self, num_individuals, landscape, alpha=1, c=1.5):
@@ -86,4 +84,5 @@ def main():
 
 
 if __name__ == '__main__':
+    import optimization_functions as opt
     main()

@@ -22,6 +22,8 @@ pip install -r requirements.txt
 Run the algorithm from the command line with:
 
 ```bash
-python cuckoo_search/cuckoo_search.py
+python cuckoo_search
 ```
+
+To see the different visualization modes check `notebooks/`.
 

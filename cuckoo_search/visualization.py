@@ -43,16 +43,3 @@ class VisualizeSearch:
         plt.scatter(algorithm.population[:, 0], algorithm.population[:, 1], color='r', marker='*')
         plt.title(f'Best fitness: {algorithm.best_fitness:.4f}')
         plt.show()
-
-    @staticmethod
-    def print_best(algorithm, num_iterations=100):
-        """
-        Runs the algorithm without visualization. Prints the best solution obtained.
-
-        Args:
-            algorithm (CuckooSearch): Cuckoo search initialized.
-            num_iterations (int): Number of iterations to run the algorithm.
-        """
-        for _ in range(num_iterations):
-            algorithm.update()
-        print(algorithm.best_fitness)

@@ -1,5 +1,5 @@
 # Cuckoo Search
-Implementation of the cuckoo search algorithm proposed in [_Cuckoo Search via Lévy Flights_](https://ieeexplore.ieee.org/document/5393690):
+Implementation of the [cuckoo search algorithm](https://en.wikipedia.org/wiki/Cuckoo_search) proposed in [**Cuckoo Search via Lévy Flights**](https://ieeexplore.ieee.org/document/5393690):
 
 >"It was inspired by the obligate brood parasitism of some cuckoo species by laying their eggs in the nests of other host birds (other species). [...] If a host bird discovers the eggs are not their own, it will either throw these aliens eggs away or simply abandon the nest and build a nest elsewhere." — From [Wikipedia](https://en.wikipedia.org/wiki/Cuckoo_search)
 
